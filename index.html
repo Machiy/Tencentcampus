@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球汇率计算器 - 各大卡组织实时对比</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-globe-asia"></i> 全球汇率计算器</h1>
+            <p class="subtitle">实时对比五大卡组织汇率，精算您的每一分钱</p>
+        </header>
+
+        <main class="calculator-card">
+            <div class="input-section">
+                <!-- Row 1: Currencies -->
+                <div class="row">
+                    <div class="form-group">
+                        <label for="base-currency">持有货币 (消费币种)</label>
+                        <div class="select-wrapper">
+                            <select id="base-currency">
+                                <option value="CNY" selected>CNY - 人民币</option>
+                                <option value="USD">USD - 美元</option>
+                                <option value="EUR">EUR - 欧元</option>
+                                <option value="JPY">JPY - 日元</option>
+                                <option value="GBP">GBP - 英镑</option>
+                                <option value="HKD">HKD - 港币</option>
+                                <option value="AUD">AUD - 澳元</option>
+                                <option value="CAD">CAD - 加元</option>
+                                <option value="SGD">SGD - 新加坡元</option>
+                                <option value="KRW">KRW - 韩元</option>
+                                <option value="THB">THB - 泰铢</option>
+                            </select>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+
+                    <button id="swap-btn" class="icon-btn" title="交换币种">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+
+                    <div class="form-group">
+                        <label for="target-currency">交易货币 (当地币种)</label>
+                        <div class="select-wrapper">
+                            <select id="target-currency">
+                                <option value="USD" selected>USD - 美元</option>
+                                <option value="CNY">CNY - 人民币</option>
+                                <option value="EUR">EUR - 欧元</option>
+                                <option value="JPY">JPY - 日元</option>
+                                <option value="GBP">GBP - 英镑</option>
+                                <option value="HKD">HKD - 港币</option>
+                                <option value="AUD">AUD - 澳元</option>
+                                <option value="CAD">CAD - 加元</option>
+                                <option value="SGD">SGD - 新加坡元</option>
+                                <option value="KRW">KRW - 韩元</option>
+                                <option value="THB">THB - 泰铢</option>
+                            </select>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Amount & Fee -->
+                <div class="row">
+                    <div class="form-group">
+                        <label for="amount">消费/取现金额</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="amount" value="1000" min="0" step="0.01">
+                            <span class="currency-symbol" id="amount-symbol">$</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bank-fee">银行手续费/FTF (%)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="bank-fee" value="1.5" min="0" step="0.1">
+                            <span class="percent-symbol">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 3: Date -->
+                <div class="row date-row">
+                    <div class="form-group">
+                        <label for="transaction-date">交易日期</label>
+                        <input type="date" id="transaction-date">
+                    </div>
+                    <button id="calculate-btn" class="primary-btn">
+                        <i class="fas fa-calculator"></i> 开始计算
+                    </button>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <h2><i class="fas fa-chart-pie"></i> 各大卡组织预估成本</h2>
+                <div class="disclaimer-cnt">
+                    <p class="disclaimer">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>数据说明：</strong> 基础汇率为<strong>实时真实市场汇率</strong> (来源 open.er-api)。
+                        各大卡组织的具体汇率是基于“市场汇率 + 典型点差”进行<strong>模拟计算</strong>的预估值，仅供对比参考。
+                        (官方实时汇率数据通常不对外公开)
+                    </p>
+                </div>
+
+                <div class="cards-grid" id="results-grid">
+                    <!-- Cards will be injected by JS -->
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i> 正在加载汇率数据...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Templates for Card Items -->
+    <template id="card-template">
+        <div class="org-card">
+            <div class="card-header">
+                <div class="org-logo">
+                    <i class="card-icon"></i> <!-- Icon classes will be added dynamically -->
+                    <span class="org-name"></span>
+                </div>
+                <div class="exchange-rate">
+                    <span class="rate-label">参考汇率</span>
+                    <span class="rate-value"></span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="detail-row">
+                    <span>原始金额</span>
+                    <span class="original-amount"></span>
+                </div>
+                <div class="detail-row fee-row">
+                    <span>银行手续费 (<span class="fee-percent"></span>)</span>
+                    <span class="fee-amount"></span>
+                </div>
+                <div class="divider"></div>
+                <div class="total-row">
+                    <span>最终入账预估</span>
+                    <span class="final-amount"></span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

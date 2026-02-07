@@ -1,0 +1,437 @@
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg-gradient-start: #f3f4f6;
+    --bg-gradient-end: #e5e7eb;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --text-main: #1f2937;
+    --text-secondary: #6b7280;
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    background: linear-gradient(135deg, #f0f2f5 0%, #e0e7ff 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background Blobs for specific aesthetic */
+.background-blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.blob {
+    position: absolute;
+    filter: blur(80px);
+    opacity: 0.6;
+    border-radius: 50%;
+    animation: float 10s infinite ease-in-out;
+}
+
+.blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: #c7d2fe;
+    animation-delay: 0s;
+}
+
+.blob-2 {
+    bottom: -10%;
+    right: -10%;
+    width: 40vw;
+    height: 40vw;
+    background: #fbcfe8;
+    animation-delay: 2s;
+}
+
+.blob-3 {
+    top: 20%;
+    right: 30%;
+    width: 30vw;
+    height: 30vw;
+    background: #a5f3fc;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(20px, -20px);
+    }
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    z-index: 1;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+h1 i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.calculator-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Input Section */
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.row {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-end;
+}
+
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    #swap-btn {
+        align-self: center;
+        transform: rotate(90deg);
+        margin: -0.5rem 0;
+    }
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.select-wrapper,
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+select,
+input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid #d1d5db;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+/* Fix for date input to show calendar icon */
+input[type="date"] {
+    appearance: auto;
+    /* Restore native appearance for date */
+    -webkit-appearance: auto;
+    cursor: pointer;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+.select-wrapper i {
+    position: absolute;
+    right: 1rem;
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+.currency-symbol,
+.percent-symbol {
+    position: absolute;
+    right: 1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.icon-btn {
+    background: #e0e7ff;
+    color: var(--primary-color);
+    border: none;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.icon-btn:hover {
+    background: #c7d2fe;
+    transform: scale(1.05);
+}
+
+.primary-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+}
+
+.primary-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+}
+
+/* Results Section */
+.results-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.disclaimer-cnt {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-lg);
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    border: 1px dashed #cbd5e1;
+}
+
+.disclaimer {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+.disclaimer strong {
+    color: var(--primary-color);
+}
+
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.org-card {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    border-left: 5px solid transparent;
+}
+
+.org-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--shadow-md);
+}
+
+/* Specific Card Colors for Organizations */
+.card-visa {
+    border-left-color: #1a1f71;
+}
+
+.card-mastercard {
+    border-left-color: #eb001b;
+}
+
+.card-amex {
+    border-left-color: #2e77bc;
+}
+
+.card-jcb {
+    border-left-color: #00874e;
+}
+
+.card-unionpay {
+    border-left-color: #00aca8;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.org-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.badge {
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 99px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge.real {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.badge.sim {
+    background: #f3f4f6;
+    color: #6b7280;
+    border: 1px solid #e5e7eb;
+}
+
+.org-logo i {
+    font-size: 1.5rem;
+}
+
+.exchange-rate {
+    text-align: right;
+}
+
+.rate-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.rate-value {
+    font-weight: 600;
+    font-family: 'Monaco', monospace;
+    color: #4b5563;
+}
+
+.card-body {
+    font-size: 0.95rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: #4b5563;
+}
+
+.fee-row {
+    color: #dc2626;
+    font-size: 0.9rem;
+}
+
+.divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 0.8rem 0;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #111827;
+}
+
+.loading-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
